@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'ThaleahFat';
+    src: url('ThaleahFat.eot');
+    src: url('ThaleahFat.eot?#iefix') format('embedded-opentype'),
+        url('ThaleahFat.woff2') format('woff2'),
+        url('ThaleahFat.woff') format('woff'),
+        url('ThaleahFat.ttf') format('truetype'),
+        url('ThaleahFat.svg#ThaleahFat') format('svg');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+

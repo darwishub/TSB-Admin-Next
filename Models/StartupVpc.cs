@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace TheStartupBuddyV3.Models
+{
+    public partial class StartupVpc
+    {
+        public int Startupid { get; set; }
+        public string Data { get; set; } = null!;
+        public DateTime Lastupdated { get; set; }
+    }
+}
