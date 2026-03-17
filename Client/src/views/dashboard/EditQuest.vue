@@ -874,22 +874,19 @@ const stepsByCurrentIndex = computed(() => {
 const stepLoading = ref(false);
 const onSubmitNextStep = handleSubmit(async values => {
     stepLoading.value = true;
-    await saveChanges().then(() => {
-        addStep(values.goal_id).then(() => {
-
-            fetchEditGoal(route.params.id).then(() => {
-                stepReplace(goal.value.steps);
-                stepLoading.value = false;
-                setFieldValue(`steps[${currentStep.value - 1}].is_step_complete`, true);
-                currentStepRef.value = currentStep.value;
-                document.getElementById('form-section').scrollIntoView();
-
-            }).finally(() => {
-                stepLoading.value = false;
-            });
-
-        });
-    })
+    try {
+        await saveChanges();
+        await addStep(values.goal_id);
+        await fetchEditGoal(route.params.id);
+        stepReplace(goal.value.steps);
+        setFieldValue(`steps[${currentStep.value - 1}].is_step_complete`, true);
+        currentStepRef.value = currentStep.value;
+        document.getElementById('form-section').scrollIntoView();
+    } catch (e) {
+        console.error('onSubmitNextStep error:', e);
+    } finally {
+        stepLoading.value = false;
+    }
 
 }, ({ errors }) => {
 

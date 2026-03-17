@@ -1191,7 +1191,8 @@ namespace TheStartupBuddyV3.Controllers
                     GoalStepDateCreated = DateTime.Now,
                     OrderStep = 0,
                     Title = "",
-                    Description = ""
+                    Description = "",
+                    Visible = true
                 };
 
                 _repository.GoalsStep.CreateGoalStep(goalStep);
@@ -1205,6 +1206,7 @@ namespace TheStartupBuddyV3.Controllers
             }
         }   
 
+        [HttpPost]
         public async Task<IActionResult> deleteStep(int stepId){
             try
             {
@@ -1232,6 +1234,7 @@ namespace TheStartupBuddyV3.Controllers
             }
         }
 
+        [HttpPost]
         public async Task<IActionResult> AddField (int stepId, byte field_code){
             try
             {
@@ -1262,7 +1265,8 @@ namespace TheStartupBuddyV3.Controllers
                     MaxData = 1,
                     AllowMultiple = false,
                     FilesType = "[]",
-                    QuestionID = lastRecord.IdCard + 1
+                    QuestionID = lastRecord.IdCard + 1,
+                    Visible = true
                 };
 
                 _repository.GoalsCard.CreateGoalCard(card);
@@ -1311,6 +1315,7 @@ namespace TheStartupBuddyV3.Controllers
         #endregion
 
         #region copy selected question
+        [HttpPost]
         public async Task<IActionResult> CopyQuestion (int cardId, int stepId)
         {
             try
@@ -1339,6 +1344,7 @@ namespace TheStartupBuddyV3.Controllers
                     AllowMultiple = _card.AllowMultiple,
                     FilesType = _card.FilesType,
                     TextButton = _card.TextButton,
+                    Visible = true
                 };
 
                 if(_card.IdCard == _card.QuestionID)
