@@ -84,7 +84,7 @@ namespace TheStartupBuddyV3.Controllers
                     string SearchResult = search.ToLower().Trim();
                     getcompanies = getcompanies.Where(o => o.companyname != null && o.companyname.ToLower().Trim().Contains(SearchResult) ||
                     o.companyEmail != null && o.companyEmail.ToLower().Trim().Contains(SearchResult) ||
-                    o.members.Any(m => m.Email.ToLower().Trim().Contains(SearchResult)));
+                    o.members != null && o.members.Any(m => m.Email != null && m.Email.ToLower().Trim().Contains(SearchResult)));
                 }
                 #endregion
 
@@ -114,7 +114,7 @@ namespace TheStartupBuddyV3.Controllers
                         pc => pc.Programid,
                         (sp, pc) => new { sp.StartupId, sp.ProgramId, sp.ProgramGroupId, ProgramName = pc.Name, pc.StatusGoal })
                     .ToListAsync();
-                var programByStartup = startupProgramsRaw.ToDictionary(x => x.StartupId);
+                var programByStartup = startupProgramsRaw.GroupBy(x => x.StartupId).ToDictionary(g => g.Key, g => g.First());
 
                 // Batch 2: program groups per unique programId (collapses N calls to 1-2)
                 var uniqueProgramIds = startupProgramsRaw.Select(p => p.ProgramId).Distinct().ToList();
@@ -143,7 +143,7 @@ namespace TheStartupBuddyV3.Controllers
                     .Where(u => allEmails.Contains(u.Email))
                     .Select(u => new { u.Email, u.Photo })
                     .ToListAsync())
-                    .ToDictionary(u => u.Email, u => u.Photo);
+                    .GroupBy(u => u.Email).ToDictionary(g => g.Key, g => g.First().Photo);
 
                 // Batch 5: completed steps per startup
                 var completedStepsByStartup = (await investeur_context.CompanyGoalsStep

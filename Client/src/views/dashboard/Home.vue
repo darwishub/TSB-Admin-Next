@@ -576,12 +576,16 @@ const onToggleRank = async (value) => {
     sortByRank.value = value;
     listCompanies.value = [];
     await fetchListCompany(searchInput.value?.inputValueRef.value, sortByRank.value, sortByCoins.value, showEntries.value?.selectRef.selected, 1, adminAuth.value.programId, programGroupIdFunc.value, isProgramGroupALL.value);
+    totalPage.value = listCompanies.value?.TotalPage ?? 1;
+    currentPage.value = 1;
 }
 let sortByCoins = ref(false);
 const onToggleCoins = async (value) => {
     sortByCoins.value = value;
     listCompanies.value = [];
     await fetchListCompany(searchInput.value?.inputValueRef.value, sortByRank.value, sortByCoins.value, showEntries.value?.selectRef.selected, 1, adminAuth.value.programId, programGroupIdFunc.value, isProgramGroupALL.value);
+    totalPage.value = listCompanies.value?.TotalPage ?? 1;
+    currentPage.value = 1;
 }
 const timePeriodName = ref("Last 7 Days");
 const timePeriod = [
